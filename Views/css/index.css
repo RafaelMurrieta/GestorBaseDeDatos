@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+
+body{
+    font-family: 'Libre Baskerville', serif;
+    font-family: 'Mukta', sans-serif;
+    background: rgb(255, 255, 255);
+}
+.logo{
+    display: flex;
+    margin: 2%;
+    margin-top: 2%;  
+}
+.index-container{
+    display: grid;
+    align-items: center;
+    text-align: center;
+    margin: 5% auto;
+   width: 30%;
+   padding: 4%;
+   border-radius: 10px;
+   background-color:aliceblue;
+   box-shadow: 0 0 4em 1em rgba(0, 0, 0, 0.4);
+}
+label{
+    font-weight: 400;
+    font-size: larger;
+    display: flex;
+    text-align:justify;
+    margin: 3% 0 3% 13%;
+}
+
+
+.input-text{
+    width: 70%;
+    padding: 3%;
+    background-color: #a5a5a5;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid
+     black;
+}
+.form-loguear-pass{
+    margin-top: 5%;
+    width: 70%;
+    height: 10%;
+    padding: 3%;
+    background-color: #ffffff;
+    color: aliceblue;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    padding: 3%;
+    width: 70%;
+    transform: scale(1);
+    color: #000000;
+    transition:1s ease-in;  
+}
+.form-loguear-pass:hover{
+    transform: scale(1.2);
+    transition:1s all;
+    background-color: #000000;
+    cursor: pointer;
+    color: white;
+}
+.form-loguear{
+    margin-top: 5%;
+    width: 70%;
+    height: 30%;
+    padding: 3%;
+}
+.forget{
+    margin-left: 40%;
+    font-size: small;
+    display: grid;
+    align-items: end;
+    margin-top: 4%;
+    color: #0229c2;
+}
+.form-loguear{
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 1px solid #000000;
+    border-radius: 6px;
+    color: #000000;
+    padding: 3%;
+    width: 70%;
+    transform: scale(1);
+    transition:1s ease-in;
+}
+.form-loguear:hover{
+    transform: scale(1.2);
+    transition:1s all;
+    background-color: #000000;
+    cursor: pointer;
+    color: white;
+}
+.new{
+    display: flex;
+    justify-content: center;
+    margin: 5%;
+}
+.new a{
+    text-decoration: none;
+}
+
+.tablaContainer{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1%;
+}
+table {
+   
+    width: 70%;
+    border-collapse: collapse;
+}
+
+/* Estilo para las celdas de encabezado */
+th {
+    border: 1px solid black;
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilo para las celdas de datos */
+td {
+    border: 1px solid #000000;
+    padding: 8px;
+}
+
+/* Estilo para las filas alternas */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para la primera fila (encabezado) */
+tr:first-child {
+    font-weight: bold;
+}
+.inputs-llenar{
+    display: grid;
+    width: 30%;
+}

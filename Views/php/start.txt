@@ -1,0 +1,112 @@
+<?php
+session_start();
+//require "Controller/conexion.php";
+require_once("valitation.php");
+/*== Almacenando datos ==*/
+$usuarios = limpiar_cadena($_POST['usuario']);
+$clave = $_POST['clave'];
+
+
+// echo $clave_original."<br>";
+
+
+
+echo $clave . "<br>";
+$clave = password_hash($clave, PASSWORD_DEFAULT);
+echo $clave;
+/*== Verificando campos obligatorios ==*/
+if ($usuarios == "" || $clave == "") {
+    echo '
+                <div class="notification is-danger is-light">
+                    <strong>¡Ocurrio un error inesperado!</strong><br>
+                    No has llenado todos los campos que son obligatorios
+                </div>
+            ';
+    exit();
+}
+
+
+/*== Verificando integridad de los datos ==*/
+if (verificar_datos("[a-zA-Z0-9]{4,20}", $usuarios)) {
+    echo '
+                <div class="notification is-danger is-light">
+                    <strong>¡Ocurrio un error inesperado!</strong><br>
+                    El USUARIO no coincide con el formato solicitado
+                </div>
+            ';
+    exit();
+}
+
+/*
+if(verificar_datos("[a-zA-Z0-9$@.-]{7,100}",$clave)){
+    $msg = "ERROR, CLAVE O CONTRASEÑA NO COINCIDEN CON EL FORMATO SOLICITADO";
+    header("Location: ../../index.php?msg=$msg");
+
+    exit();
+}
+
+*/
+//Comparacion para ver si existe ese usuario en la base de datos
+
+
+//Verifica que usuario y contraseña sean correctos en BD
+//checkUsuario
+$usuario = conexion();
+$stmt = $usuario->prepare("SELECT * FROM users WHERE Nombre = :usuarios");
+$stmt->bindParam(':usuarios', $usuarios, PDO::PARAM_STR);
+$stmt->execute();
+
+
+if ($stmt->rowCount() > 0) {
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $hashFromDB = $userData['Contraseña'];
+
+    if (password_verify($clave, $hashFromDB )) {
+
+        echo $pass. "<br>";
+        echo $clave;
+        $stmt = $usuario->prepare("SELECT * FROM users WHERE Nombre = :usuarios AND Contraseña = :clave");
+        $stmt->bindParam(':usuarios', $usuarios, PDO::PARAM_STR);
+        $stmt->bindParam(':clave', $clave, PDO::PARAM_STR);
+        $stmt->execute();
+
+        if ($stmt) {
+            if ($stmt->rowCount() == 1) {
+                $usuario = $stmt->fetch();
+
+                if ($usuario) {
+                    $_SESSION['id'] = $usuario['ID'];
+                    $_SESSION['Nombre'] = $usuario['Nombre'];
+                    $_SESSION['Apellido'] = $usuario['Apellido'];
+                    $_SESSION['Email'] = $usuario['Email'];
+                    $_SESSION['Contraseña'] = $usuario['Contraseña'];
+
+                    $queryParams = http_build_query([
+                        'vista' => 'home',
+                        'usr' => $_SESSION['Nombre'],
+                        'ape' => $_SESSION['Apellido'],
+                        'email' => $_SESSION['Email'],
+                        'pass' => $_SESSION['Contraseña']
+                    ]);
+
+                    echo "Antes de la redirección...";
+                    if (headers_sent()) {
+                        //echo "<script> window.location.href='../../index.php?vista=home'; </script>";
+                    } else {
+                        // header("Location: ../../index.php?vista=home&$queryParams");
+
+                    }
+                }
+            } else {
+                $msg = "ERROR, CLAVE O CONTRASEÑA INCORRECTOS";
+                // header("Location: ../../index.php?msg=$msg");
+                exit; // Es importante salir del script después de hacer una redirección
+            }
+        } else {
+            $msg = "Ha ocurrido un error inesperado";
+            // header("Location: ../../index.php?msg=$msg");
+            exit; // Es importante salir del script después de hacer una redirección
+        }
+    }
+}
+$usuario = null;
